@@ -2,7 +2,7 @@ const fs = require('fs');
 const OpenAI = require('openai');
 
 const openai = new OpenAI({
-  apiKey: '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'
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 (async () => {
@@ -28,6 +28,6 @@ ${diff}
     temperature: 0.3,
   });
 
-  const output = res.choices[0].message.content.trim();
+  const output = res.data.choices[0].message.content.trim();
   console.log(output);
 })();
