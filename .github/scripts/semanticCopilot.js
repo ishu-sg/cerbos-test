@@ -28,6 +28,6 @@ ${diff}
     temperature: 0.3,
   });
 
-  const output = res.data.choices[0].message.content.trim();
+  const output = res.choices[0].message.content.trim();
   console.log(output);
 })();
