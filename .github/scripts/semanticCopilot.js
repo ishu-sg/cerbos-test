@@ -23,7 +23,7 @@ ${diff}
 `;
 
   const res = await openai.chat.completions.create({
-    model: 'gpt-4', // or gpt-3.5-turbo
+    model: 'gpt-4o', // or gpt-3.5-turbo
     messages: [{ role: 'user', content: prompt }],
     temperature: 0.3,
   });
