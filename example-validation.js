@@ -9,4 +9,30 @@ function validateInput(input) {
   return sanitized;
 }
 
-module.exports = { validateInput }; 
+function validateEmail(email) {
+  if (!email || typeof email !== 'string') {
+    throw new Error('Email must be a string');
+  }
+  
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    throw new Error('Invalid email format');
+  }
+  
+  return email.toLowerCase();
+}
+
+function sanitizeHtml(html) {
+  if (!html || typeof html !== 'string') {
+    return '';
+  }
+  
+  // Simple HTML sanitization
+  return html
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+module.exports = { validateInput, validateEmail, sanitizeHtml }; 
