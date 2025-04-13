@@ -9,18 +9,30 @@ const openai = new OpenAI({
   const diff = fs.readFileSync('pr.diff', 'utf8');
 
   const prompt = `
-You are an experienced code reviewer.
-Analyze the following Git diff and reply with:
-
-1. A high-level summary of the changes.
-2. Are there any missing test cases?
-3. Are there code smells or best practices violations?
-4. Any potential security risks?
-
---- BEGIN DIFF ---
-${diff}
---- END DIFF ---
-`;
+  You are an expert code reviewer.
+  
+  Analyze the following Git diff and return a Markdown table with these categories:
+  
+  | Category               | Issue Description                                                              |
+  |------------------------|---------------------------------------------------------------------------------|
+  | ✅ Summary              | High-level summary of what this pull request does                              |
+  | 🧪 Missing Test Cases   | Any missing or incomplete test cases                                           |
+  | 🧹 Code Smells / Style  | Any code style violations, smells or anti-patterns                             |
+  | 🛡 Security Risks       | Hardcoded secrets, unsafe comparisons, risky dependencies                      |
+  | ⚠️ Potential Bugs       | Logic flaws, undefined behavior, fragile conditions                            |
+  | ⏱️ Performance Issues   | Performance concerns, inefficient loops or APIs                                |
+  | ♻️ Refactor Suggestions | Suggestions to make code more readable or maintainable                         |
+  | 📚 Documentation Gaps   | Areas that need better naming, comments, or documentation                      |
+  | 🔁 Duplicate Logic      | Any repeated logic that can be abstracted                                      |
+  | 🚫 Deprecated Patterns  | Usage of outdated or discouraged methods or libraries                         |
+  | 🧩 Dependency Risks     | Any risky or unnecessary dependencies added                                    |
+  
+  Only output the table.
+  
+  Git Diff:
+  ${diff}
+  `;
+  
 
   const res = await openai.chat.completions.create({
     model: 'gpt-4o-mini', 
