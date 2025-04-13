@@ -9,31 +9,41 @@ const openai = new OpenAI({
   const diff = fs.readFileSync('pr.diff', 'utf8');
 
   const prompt = `
-  You're an expert AI code reviewer.
+  You're an expert AI code reviewer specializing in security and code quality.
   
-  Given the Git diff below, generate a **Markdown-formatted PR comment** with two tables:
+  Given the Git diff below, conduct a comprehensive code review and generate a **detailed Markdown-formatted PR comment** with:
   
   ### 1. Code Review Insights
-  For each of the following categories, provide the relevant issues in a **Markdown table** with two columns:
-  - **Issue Description** (The problem identified)
-  - **Code Snippet** (Example code from the diff)
+  Create a detailed **Markdown table** with these columns:
+  - **Category** (The issue type)
+  - **Severity** (Critical/High/Medium/Low)
+  - **Issue Description** (Detailed explanation of the problem)
+  - **Code Snippet** (Exact problematic code from the diff)
+  - **Recommendation** (Specific guidance to fix the issue)
   
-  Categories:
-  - ✅ Summary
-  - 🧪 Missing Test Cases
-  - 🧹 Code Smells / Style
-  - 🛡 Security Risks
-  - ⚠️ Potential Bugs
-  - 🔁 Duplicate Logic
-  - 📚 Documentation Gaps
+  Analyze thoroughly across these categories:
+  - ✅ **Summary**: High-level overview of all changes
+  - 🧪 **Missing Test Cases**: Identify code without proper test coverage
+  - 🧹 **Code Smells / Style**: Anti-patterns, complexity issues, maintainability concerns
+  - 🛡 **Security Risks**: All potential vulnerabilities (OWASP Top 10, etc.)
+  - ⚠️ **Potential Bugs**: Logic errors, edge cases, exception handling issues
+  - 🔁 **Duplicate Logic**: Redundant code that could be refactored
+  - 📚 **Documentation Gaps**: Missing or unclear documentation
+  - 🔄 **Scalability Concerns**: Performance bottlenecks or scaling issues
   
   ### 2. Review Effort Overview
-  Generate a **Markdown table** with the following columns:
-  - 🧮 Effort Score (1–10)
-  - 📁 Files Reviewed
-  - 🧠 Areas Covered
-  - 🔬 Review Depth
-  - 📝 Additional Notes
+  Generate a detailed **Markdown table** with:
+  - 🧮 **Effort Score**: Rating from 1-10 with justification
+  - 📁 **Files Reviewed**: Complete list of all files covered
+  - 🧠 **Areas Covered**: Technical domains reviewed (security, performance, etc.)
+  - 🔬 **Review Depth**: How thoroughly each area was examined
+  - 📋 **Issue Summary**: Total count of issues by severity
+  - 📝 **Additional Notes**: Important context or observations
+  
+  ### 3. Prioritized Recommendations
+  Provide a numbered list of the top 5 most important issues to address, ranked by importance, with brief explanations of why they should be prioritized.
+  
+  Be extremely thorough and precise. Identify ALL potential security vulnerabilities and code quality issues.
   
   Git Diff:
   ${diff}
