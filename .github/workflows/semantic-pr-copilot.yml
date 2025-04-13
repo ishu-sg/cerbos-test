@@ -1,0 +1,47 @@
+name: Semantic PR Copilot
+
+on:
+  pull_request:
+    types: [opened, synchronize, edited]
+
+jobs:
+  analyze_pr:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: npm install openai
+
+      - name: Get PR Diff
+        run: |
+          git fetch origin main
+          git diff origin/main..HEAD > pr.diff
+
+      - name: Run Semantic Copilot
+        id: run_copilot
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          node .github/scripts/semanticCopilot.js > result.txt
+          echo "result<<EOF" >> $GITHUB_ENV
+          cat result.txt >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Comment on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: semantic-pr-copilot
+          message: |
+            🧠 **AI Review Summary**
+            ${{ env.result }}
