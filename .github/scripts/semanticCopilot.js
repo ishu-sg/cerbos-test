@@ -15,36 +15,36 @@ const openai = new OpenAI({
   
   1. Generate a **Markdown-formatted PR comment** that includes:
      
-     a. A **Code Review Insights** table with the following columns:
-        - Category
-        - Issue Description
-        Use these categories:
-          - ✅ Summary
-          - 🧪 Missing Test Cases
-          - 🧹 Code Smells / Style
-          - 🛡 Security Risks
-          - ⚠️ Potential Bugs
-          - 🔁 Duplicate Logic
-          - 📚 Documentation Gaps
+     a. A **Code Review Insights** table with the following format:
+        
+        | Category | Issue Description |
+        | -------- | ----------------- |
+        | ✅ Summary | ... |
+        | 🧪 Missing Test Cases | ... |
+        | 🧹 Code Smells / Style | ... |
+        | 🛡 Security Risks | ... |
+        | ⚠️ Potential Bugs | ... |
+        | 🔁 Duplicate Logic | ... |
+        | 📚 Documentation Gaps | ... |
   
      b. For each issue, immediately after the table row, include a **relevant code snippet** from the diff in a fenced block using the appropriate language (e.g., \`\`\`js or \`\`\`ts). These code snippets should illustrate the issue described.
   
      c. Then, include a **Review Effort Overview** table with the following columns:
-        - 🧮 Effort Score (1–10)
-        - 📁 Files Reviewed
-        - 🧠 Areas Covered
-        - 🔬 Review Depth
-        - 📝 Additional Notes
+        
+        | Metric | Value |
+        | ------ | ----- |
+        | 🧮 Effort Score (1–10) | ... |
+        | 📁 Files Reviewed | ... |
+        | 🧠 Areas Covered | ... |
+        | 🔬 Review Depth | ... |
+        | 📝 Additional Notes | ... |
   
   2. Format everything strictly in **Markdown**. Do not include any commentary, explanations, or prose outside the tables and code blocks.
   
   Git Diff:
   ${diff}
   `;
-  
-  
-  
-  
+
 
   const res = await openai.chat.completions.create({
     model: 'gpt-4o-mini', 
