@@ -13,6 +13,7 @@ const openai = new OpenAI({
   
   Analyze the following Git diff and return a Markdown table with these categories:
   
+  a. A table with these categories:
   | Category               | Issue Description                                                              |
   |------------------------|---------------------------------------------------------------------------------|
   | ✅ Summary              | High-level summary of what this pull request does                              |
@@ -25,7 +26,13 @@ const openai = new OpenAI({
   | 📚 Documentation Gaps   | Areas that need better naming, comments, or documentation                      |
   | 🔁 Duplicate Logic      | Any repeated logic that can be abstracted                                      |
   | 🚫 Deprecated Patterns  | Usage of outdated or discouraged methods or libraries                         |
-  | 🧩 Dependency Risks     | Any risky or unnecessary dependencies added                                    |
+  | 🧩 Dependency Risks     | Any risky or unnecessary dependencies added          
+  
+   b. A "Review Effort Score" from 1–10 based on the depth and complexity of changes.
+   c. A short paragraph detailing what was reviewed: 
+      - What files were analyzed
+      - What types of changes (logic, tests, config)
+      - What aspects were deeply reviewed (security, performance, etc.)
   
   Only output the table.
   
