@@ -44,7 +44,4 @@ jobs:
           header: semantic-pr-copilot
           message: |
             🧠 **AI Review Summary**
-            <details>
-              <summary>Review Insights</summary>
-              ${{ env.result }}
-            </details>
+            ${{ env.result }}
