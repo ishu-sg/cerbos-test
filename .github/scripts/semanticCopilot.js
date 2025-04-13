@@ -11,35 +11,29 @@ const openai = new OpenAI({
   const prompt = `
   You're an expert AI code reviewer.
   
-  Given the Git diff below:
+  Given the Git diff below, generate a **Markdown-formatted PR comment** with two tables:
   
-  1. Generate a **Markdown-formatted PR comment** that includes:
-     
-     a. A **Code Review Insights** table with the following format:
-        
-        | Category | Issue Description |
-        | -------- | ----------------- |
-        | ✅ Summary | ... |
-        | 🧪 Missing Test Cases | ... |
-        | 🧹 Code Smells / Style | <details><summary>Issue details</summary>\n\n\`\`\`js\n// code snippet here\n\`\`\`\n</details> |
-        | 🛡 Security Risks | <details><summary>Issue details</summary>\n\n\`\`\`js\n// code snippet here\n\`\`\`\n</details> |
-        | ⚠️ Potential Bugs | <details><summary>Issue details</summary>\n\n\`\`\`js\n// code snippet here\n\`\`\`\n</details> |
-        | 🔁 Duplicate Logic | <details><summary>Issue details</summary>\n\n\`\`\`js\n// code snippet here\n\`\`\`\n</details> |
-        | 📚 Documentation Gaps | <details><summary>Issue details</summary>\n\n\`\`\`js\n// code snippet here\n\`\`\`\n</details> |
+  ### 1. Code Review Insights
+  For each of the following categories, provide the relevant issues in a **Markdown table** with two columns:
+  - **Issue Description** (The problem identified)
+  - **Code Snippet** (Example code from the diff)
   
-     b. Format each issue cell with both the description and code snippet in a dropdown using the <details> tag as shown above. The summary should briefly state the issue, while the dropdown content contains the code snippet.
+  Categories:
+  - ✅ Summary
+  - 🧪 Missing Test Cases
+  - 🧹 Code Smells / Style
+  - 🛡 Security Risks
+  - ⚠️ Potential Bugs
+  - 🔁 Duplicate Logic
+  - 📚 Documentation Gaps
   
-     c. Then, include a **Review Effort Overview** table with the following columns:
-        
-        | Metric | Value |
-        | ------ | ----- |
-        | 🧮 Effort Score (1–10) | ... |
-        | 📁 Files Reviewed | ... |
-        | 🧠 Areas Covered | ... |
-        | 🔬 Review Depth | ... |
-        | 📝 Additional Notes | ... |
-  
-  2. Format everything strictly in **Markdown**. Do not include any commentary, explanations, or prose outside the tables and code blocks.
+  ### 2. Review Effort Overview
+  Generate a **Markdown table** with the following columns:
+  - 🧮 Effort Score (1–10)
+  - 📁 Files Reviewed
+  - 🧠 Areas Covered
+  - 🔬 Review Depth
+  - 📝 Additional Notes
   
   Git Diff:
   ${diff}

@@ -44,4 +44,18 @@ jobs:
           header: semantic-pr-copilot
           message: |
             🧠 **AI Review Summary**
-            ${{ env.result }}
+            <details>
+              <summary>Review Insights</summary>
+              ${{ env.result }}
+            </details>
+
+            <details>
+              <summary>Review Effort Overview</summary>
+              | Metric                    | Value                                            |
+              |---------------------------|--------------------------------------------------|
+              | 🧮 Effort Score (1–10)     | **8 / 10**                                       |
+              | 📁 Files Reviewed          | auth.js, middleware.js, login.test.js           |
+              | 🧠 Areas Covered           | Auth logic, token handling, tests               |
+              | 🔬 Review Depth            | Deep inspection of logic, moderate review of tests |
+              | 📝 Additional Notes        | Focused on high-risk logic. Performance was skipped. |
+            </details>
