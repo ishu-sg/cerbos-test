@@ -12,28 +12,36 @@ const openai = new OpenAI({
   You're an expert AI code reviewer.
   
   Given the Git diff below:
-  1. Generate a **Markdown-formatted PR comment** with two tables:
-     a. **Code Review Insights** — Categorize issues as:
-        - ✅ Summary
-        - 🧪 Missing Test Cases
-        - 🧹 Code Smells / Style
-        - 🛡 Security Risks
-        - ⚠️ Potential Bugs
-        - 🔁 Duplicate Logic
-        - 📚 Documentation Gaps
   
-     b. **Review Effort Overview** — Include metrics in table form:
-        - Effort Score (1–10)
-        - Files Reviewed
-        - Areas Covered
-        - Review Depth
-        - Additional Notes
+  1. Generate a **Markdown-formatted PR comment** that includes:
+     
+     a. A **Code Review Insights** table with the following columns:
+        - Category
+        - Issue Description
+        Use these categories:
+          - ✅ Summary
+          - 🧪 Missing Test Cases
+          - 🧹 Code Smells / Style
+          - 🛡 Security Risks
+          - ⚠️ Potential Bugs
+          - 🔁 Duplicate Logic
+          - 📚 Documentation Gaps
   
-  Only return Markdown with these two tables. No headings or text outside the format.
+     b. For each issue, immediately after the table row, include a **relevant code snippet** from the diff in a fenced block using the appropriate language (e.g., \`\`\`js or \`\`\`ts). These code snippets should illustrate the issue described.
+  
+     c. Then, include a **Review Effort Overview** table with the following columns:
+        - 🧮 Effort Score (1–10)
+        - 📁 Files Reviewed
+        - 🧠 Areas Covered
+        - 🔬 Review Depth
+        - 📝 Additional Notes
+  
+  2. Format everything strictly in **Markdown**. Do not include any commentary, explanations, or prose outside the tables and code blocks.
   
   Git Diff:
   ${diff}
   `;
+  
   
   
   
