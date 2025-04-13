@@ -11,49 +11,36 @@ const openai = new OpenAI({
   const prompt = `
   You're an expert AI code reviewer.
   
-  Given the Git diff below, generate a **Markdown-formatted PR comment** that includes:
+  Given the Git diff below:
   
-  ---
+  1. Generate a **Markdown-formatted PR comment** that includes:
+     
+     a. A **Code Review Insights** table with the following columns:
+        - Category
+        - Issue Description
+        Use these categories:
+          - ✅ Summary
+          - 🧪 Missing Test Cases
+          - 🧹 Code Smells / Style
+          - 🛡 Security Risks
+          - ⚠️ Potential Bugs
+          - 🔁 Duplicate Logic
+          - 📚 Documentation Gaps
   
-  ### 1. Code Review Insights
+     b. For each issue, immediately after the table row, include a **relevant code snippet** from the diff in a fenced block using the appropriate language (e.g., \`\`\`js or \`\`\`ts). These code snippets should illustrate the issue described.
   
-  Group issues by category, using the following sections:
-  - ✅ Summary
-  - 🧪 Missing Test Cases
-  - 🧹 Code Smells / Style
-  - 🛡 Security Risks
-  - ⚠️ Potential Bugs
-  - 🔁 Duplicate Logic
-  - 📚 Documentation Gaps
+     c. Then, include a **Review Effort Overview** table with the following columns:
+        - 🧮 Effort Score (1–10)
+        - 📁 Files Reviewed
+        - 🧠 Areas Covered
+        - 🔬 Review Depth
+        - 📝 Additional Notes
   
-  For each category:
-  
-  - Use a **table** with the following columns:
-    - Issue Description
-    - Code Snippet
-  
-  - Render code snippets using fenced blocks (e.g. \`\`\`ts or \`\`\`js).
-  - If no issues are found for a category, skip that category.
-  
-  ---
-  
-  ### 2. Review Effort Overview
-  
-  Render this section as a separate **Markdown table** with these columns:
-  - 🧮 Effort Score (1–10)
-  - 📁 Files Reviewed
-  - 🧠 Areas Covered
-  - 🔬 Review Depth
-  - 📝 Additional Notes
-  
-  ---
-  
-  Do not include any headings or prose outside these sections. Only return well-structured Markdown output.
+  2. Format everything strictly in **Markdown**. Do not include any commentary, explanations, or prose outside the tables and code blocks.
   
   Git Diff:
   ${diff}
   `;
-  
   
   
   
