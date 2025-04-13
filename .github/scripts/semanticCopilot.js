@@ -9,36 +9,34 @@ const openai = new OpenAI({
   const diff = fs.readFileSync('pr.diff', 'utf8');
 
   const prompt = `
-  You are an expert code reviewer.
+  You're an expert AI reviewer.
   
-  Analyze the following Git diff and return a Markdown table with these categories:
+  Your job is to:
+  1. Analyze the provided Git diff.
+  2. Output a Markdown-formatted PR comment containing:
   
-  a. A table with these categories:
-  | Category               | Issue Description                                                              |
-  |------------------------|---------------------------------------------------------------------------------|
-  | ✅ Summary              | High-level summary of what this pull request does                              |
-  | 🧪 Missing Test Cases   | Any missing or incomplete test cases                                           |
-  | 🧹 Code Smells / Style  | Any code style violations, smells or anti-patterns                             |
-  | 🛡 Security Risks       | Hardcoded secrets, unsafe comparisons, risky dependencies                      |
-  | ⚠️ Potential Bugs       | Logic flaws, undefined behavior, fragile conditions                            |
-  | ⏱️ Performance Issues   | Performance concerns, inefficient loops or APIs                                |
-  | ♻️ Refactor Suggestions | Suggestions to make code more readable or maintainable                         |
-  | 📚 Documentation Gaps   | Areas that need better naming, comments, or documentation                      |
-  | 🔁 Duplicate Logic      | Any repeated logic that can be abstracted                                      |
-  | 🚫 Deprecated Patterns  | Usage of outdated or discouraged methods or libraries                         |
-  | 🧩 Dependency Risks     | Any risky or unnecessary dependencies added          
+  ### 1. A table with categorized code insights:
+  | Category | Issue Description |
   
-   b. A "Review Effort Score" from 1–10 based on the depth and complexity of changes.
-   c. A short paragraph detailing what was reviewed: 
-      - What files were analyzed
-      - What types of changes (logic, tests, config)
-      - What aspects were deeply reviewed (security, performance, etc.)
+  Use these categories:
+  ✅ Summary, 🧪 Missing Test Cases, 🧹 Code Smells / Style, 🛡 Security Risks, ⚠️ Potential Bugs, ♻️ Refactor Suggestions, 📚 Documentation Gaps, 🔁 Duplicate Logic
   
-  Only output the table.
+  ### 2. A second table evaluating review effort:
+  
+  | Metric | Value |
+  Use:
+  - Effort Score (1–10)
+  - Files Reviewed
+  - Areas Covered (e.g. logic, security, tests, performance)
+  - Review Depth (brief description)
+  - Notes (additional insights)
+  
+  Only return a valid Markdown comment. Keep responses crisp, informative, and structured.
   
   Git Diff:
   ${diff}
   `;
+  
   
 
   const res = await openai.chat.completions.create({
