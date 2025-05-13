@@ -3,24 +3,26 @@ apiVersion: "api.cerbos.dev/v1"
 derivedRoles:
   name: common_roles
   definitions:
-    - name: admin_user
-      parentRoles: ["super_admin"]
+    - name: super_admin
+      parentRoles: ["super-admin"]
       condition:
         match:
-          expr: request.principal.attr.role == "super_admin"
+          expr: request.principal.attr.role == "super-admin"
 
-    - name: franchise_owner
-      parentRoles: ["franchise_admin"]
+    - name: franchise_admin
+      parentRoles: ["franchise-admin"]
       condition:
         match:
-          all:
-            of:
-              - expr: request.resource.attr.franchiseId == request.principal.attr.franchiseId
-              - expr: request.principal.attr.blocked == false
-              - expr: request.principal.attr.role == "franchise_admin"
+          expr: request.principal.attr.role == "franchise-admin"
     
-    - name: franchise_viewer
-      parentRoles: ["franchise_admin", "super_admin"]
+    - name: group_manager
+      parentRoles: ["group_manager"]
       condition:
         match:
-          expr: request.principal.attr.blocked == false
+          expr: request.principal.attr.role == "group-manager"
+
+    - name: venue_manager
+      parentRoles: ["venue_manager"]
+      condition:
+        match:
+          expr: request.principal.attr.role == "venue-manager"

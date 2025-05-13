@@ -6,48 +6,21 @@ resourcePolicy:
     - common_roles
   resource: "franchise"
   rules:
-    - actions: ["create", "delete"]
+    # Super Admin can do everything
+    - actions: ["create", "view", "list", "update", "delete"]
       effect: EFFECT_ALLOW
       derivedRoles:
-        - admin_user
+        - super_admin
 
-    - actions: ["view", "list"]
+    # Franchise Admin can view, update their own franchise, but cannot create/delete
+    - actions: ["view", "update"]
       effect: EFFECT_ALLOW
       derivedRoles:
-        - franchise_viewer
-        - admin_user
+        - franchise_admin
 
-    - actions: ["update"]
+    - actions: ["list"]
       effect: EFFECT_ALLOW
       derivedRoles:
-        - admin_user
-        - franchise_owner
-
-    - actions: ["view_details", "view_groups"]
-      effect: EFFECT_ALLOW
-      derivedRoles:
-        - franchise_owner
-        - admin_user
-
-    # Additional rules for specific franchise operations
-    - actions: ["manage_admins"]
-      effect: EFFECT_ALLOW
-      derivedRoles:
-        - admin_user
-      condition:
-        match:
-          expr: request.resource.attr.status != "deleted"
-
-    - actions: ["change_status"]
-      effect: EFFECT_ALLOW
-      derivedRoles:
-        - admin_user
-        - franchise_owner
-      condition:
-        match:
-          all:
-            of:
-              - expr: request.resource.attr.status != "deleted"
-              - expr: |-
-                  request.principal.attr.role == "super_admin" || 
-                  (request.principal.attr.role == "franchise_admin") 
+        - franchise_admin
+        - group_manager
+        - venue_manager
